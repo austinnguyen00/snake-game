@@ -3,6 +3,7 @@ import { Colors } from '../styles/colors';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { Coordinate, Direction, GestureEventType } from '../types/types';
 import { useState } from 'react';
+import Snake from './Snake';
 
 // Constant variables for the game
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
@@ -47,7 +48,9 @@ const Game = () => {
 	return (
 		<PanGestureHandler onGestureEvent={handleGesutre}>
 			<SafeAreaView style={styles.container}>
-				<Text>Game</Text>
+				<View style={styles.boundaries}>
+					<Snake snake={snake} />
+				</View>
 			</SafeAreaView>
 		</PanGestureHandler>
 	);
@@ -57,6 +60,14 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: Colors.primary,
+	},
+	boundaries: {
+		flex: 1,
+		borderColor: Colors.primary,
+		borderWidth: 25,
+		borderBottomLeftRadius: 30,
+		borderBottomRightRadius: 30,
+		backgroundColor: Colors.background,
 	},
 });
 
