@@ -9,6 +9,7 @@ import Food from './Food';
 import { checkEatFood } from '../utils/checkEatFood';
 import { randomFoodPosition } from '../utils/randomFoodPosition';
 import Header from './Header';
+import Score from './Score';
 
 // Constant variables for the game
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
@@ -124,7 +125,7 @@ const Game = () => {
 					pauseGame={pauseGame}
 					reloadGame={reloadGame}
 				>
-					<Text>{score}</Text>
+					<Score score={score} />
 				</Header>
 				<View style={styles.boundaries}>
 					<Snake snake={snake} />
