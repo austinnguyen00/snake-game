@@ -8,6 +8,7 @@ import { checkGameOver } from '../utils/checkGameOver';
 import Food from './Food';
 import { checkEatFood } from '../utils/checkEatFood';
 import { randomFoodPosition } from '../utils/randomFoodPosition';
+import Header from './Header';
 
 // Constant variables for the game
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
@@ -102,9 +103,29 @@ const Game = () => {
 		}
 	};
 
+	const pauseGame = () => {
+		setIsPaused(!isPaused);
+	};
+
+	const reloadGame = () => {
+		setSnake(SNAKE_INITIAL_POSITION);
+		setFood(FOOD_INITIAL_POSITION);
+		setIsGameOver(false);
+		setScore(0);
+		setDirection(Direction.Right);
+		setIsPaused(false);
+	};
+
 	return (
 		<PanGestureHandler onGestureEvent={handleGesutre}>
 			<SafeAreaView style={styles.container}>
+				<Header
+					isPaused={isPaused}
+					pauseGame={pauseGame}
+					reloadGame={reloadGame}
+				>
+					<Text>{score}</Text>
+				</Header>
 				<View style={styles.boundaries}>
 					<Snake snake={snake} />
 					<Food
