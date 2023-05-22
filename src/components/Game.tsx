@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import Snake from './Snake';
 import { checkGameOver } from '../utils/checkGameOver';
 import Food from './Food';
+import { checkEatFood } from '../utils/checkEatFood';
 
 // Constant variables for the game
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
@@ -40,7 +41,6 @@ const Game = () => {
 	const moveSnake = () => {
 		const snakeHead = snake[0];
 		const newHead = { ...snakeHead }; // create a copy object of snake head
-
 		// Check if game over
 		if (checkGameOver(snakeHead, GAME_BOUNDS)) {
 			// As moveSnake is run every few seconds inside `useEffect`
@@ -50,7 +50,6 @@ const Game = () => {
 			setIsGameOver((prev) => !prev);
 			return;
 		}
-
 		switch (direction) {
 			case Direction.Up:
 				newHead.y += 1;
@@ -67,10 +66,14 @@ const Game = () => {
 			default:
 				break;
 		}
-
-		// Check if eats food then snake grows up
-		// Use slice to remove the last part of the snake when move to new position
-		setSnake([newHead, ...snake.slice(0, -1)]);
+		// Check if eat food then snake grows up
+		if (checkEatFood(newHead, food, 2)) {
+			setSnake([newHead, ...snake]);
+			setScore(score + SCORE_INCREMENT);
+		} else {
+			// Use slice to remove the last part of the snake when move to new position
+			setSnake([newHead, ...snake.slice(0, -1)]);
+		}
 	};
 
 	// Function to handle snake movement in the game
