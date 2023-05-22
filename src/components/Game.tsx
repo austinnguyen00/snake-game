@@ -4,7 +4,7 @@ import { Colors } from '../styles/colors';
 
 const Game = () => {
 	return (
-		<SafeAreaView>
+		<SafeAreaView style={styles.container}>
 			<Text>Game</Text>
 		</SafeAreaView>
 	);
@@ -12,6 +12,7 @@ const Game = () => {
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		backgroundColor: Colors.primary,
 	},
 });
