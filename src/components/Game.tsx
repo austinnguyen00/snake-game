@@ -5,6 +5,7 @@ import { Coordinate, Direction, GestureEventType } from '../types/types';
 import { useState, useEffect } from 'react';
 import Snake from './Snake';
 import { checkGameOver } from '../utils/checkGameOver';
+import Food from './Food';
 
 // Constant variables for the game
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
@@ -101,6 +102,10 @@ const Game = () => {
 			<SafeAreaView style={styles.container}>
 				<View style={styles.boundaries}>
 					<Snake snake={snake} />
+					<Food
+						x={food.x}
+						y={food.y}
+					/>
 				</View>
 			</SafeAreaView>
 		</PanGestureHandler>
