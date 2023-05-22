@@ -7,6 +7,7 @@ import Snake from './Snake';
 import { checkGameOver } from '../utils/checkGameOver';
 import Food from './Food';
 import { checkEatFood } from '../utils/checkEatFood';
+import { randomFoodPosition } from '../utils/randomFoodPosition';
 
 // Constant variables for the game
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
@@ -68,6 +69,7 @@ const Game = () => {
 		}
 		// Check if eat food then snake grows up
 		if (checkEatFood(newHead, food, 2)) {
+			setFood(randomFoodPosition(GAME_BOUNDS.xMax, GAME_BOUNDS.yMax));
 			setSnake([newHead, ...snake]);
 			setScore(score + SCORE_INCREMENT);
 		} else {
