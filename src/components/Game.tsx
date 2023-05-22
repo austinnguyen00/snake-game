@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import { Colors } from '../styles/colors';
 import { PanGestureHandler } from 'react-native-gesture-handler';
 import { Coordinate, Direction, GestureEventType } from '../types/types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Snake from './Snake';
 
 // Constant variables for the game
@@ -20,6 +20,48 @@ const Game = () => {
 	const [score, setScore] = useState<number>(0);
 	const [isGameOver, setIsGameOver] = useState<boolean>(false);
 	const [isPaused, setIsPaused] = useState<boolean>(false);
+
+	// Update snake position with useEffect
+	useEffect(() => {
+		if (!isGameOver) {
+			// `setInterval` schedules repeated execution every delay miliseconds
+			const intervalID = setInterval(() => {
+				!isPaused && moveSnake();
+			}, MOVE_INTERVAL);
+
+			// Cancels the `Timeout` object created by `setInterval`
+			return () => clearInterval(intervalID);
+		}
+	}, [snake, isGameOver, isPaused]);
+
+	// Update snake position in the game
+	const moveSnake = () => {
+		const snakeHead = snake[0];
+		const newHead = { ...snakeHead }; // create a copy object of snake head
+
+		// Check if game over
+
+		switch (direction) {
+			case Direction.Up:
+				newHead.y += 1;
+				break;
+			case Direction.Down:
+				newHead.y -= 1;
+				break;
+			case Direction.Left:
+				newHead.x -= 1;
+				break;
+			case Direction.Right:
+				newHead.x += 1;
+				break;
+			default:
+				break;
+		}
+
+		// Check if eats food then snake grows up
+		// Use slice to remove the last part of the snake when move to new position
+		setSnake([newHead, ...snake.slice(0, -1)]);
+	};
 
 	// Function to handle snake movement in the game
 	const handleGesutre = (event: GestureEventType) => {
