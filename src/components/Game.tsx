@@ -4,6 +4,7 @@ import { PanGestureHandler } from 'react-native-gesture-handler';
 import { Coordinate, Direction, GestureEventType } from '../types/types';
 import { useState, useEffect } from 'react';
 import Snake from './Snake';
+import { checkGameOver } from '../utils/checkGameOver';
 
 // Constant variables for the game
 const SNAKE_INITIAL_POSITION = [{ x: 5, y: 5 }];
@@ -40,6 +41,14 @@ const Game = () => {
 		const newHead = { ...snakeHead }; // create a copy object of snake head
 
 		// Check if game over
+		if (checkGameOver(snakeHead, GAME_BOUNDS)) {
+			// As moveSnake is run every few seconds inside `useEffect`
+			// `setIsGameOver` will be continuously updated
+			// and we want it gameOver to newGame
+			// and we can do it with prev - previous state of isGameOver
+			setIsGameOver((prev) => !prev);
+			return;
+		}
 
 		switch (direction) {
 			case Direction.Up:
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
 	boundaries: {
 		flex: 1,
 		borderColor: Colors.primary,
-		borderWidth: 25,
+		borderWidth: 12,
 		borderBottomLeftRadius: 30,
 		borderBottomRightRadius: 30,
 		backgroundColor: Colors.background,
